@@ -1,5 +1,7 @@
 const expect = chai.expect;
 
+// const { Pokemonager } = require("./pokemonager.js");
+
 let pokemonager;
 
 describe("pokemonager", () => {
@@ -35,6 +37,8 @@ describe("pokemonager", () => {
     return pokemonager.findUnderWeight(100).then((actual) => {
       expect(actual.length).to.equal(4);
       expect(Array.isArray(actual)).to.equal(true);
+      console.log(actual.map((pokemon) => pokemon.name));
+      console.log(underWeight);
       expect(actual.map((pokemon) => pokemon.name)).to.deep.equal(underWeight);
       Array.prototype.filter = realFilter;
     });
