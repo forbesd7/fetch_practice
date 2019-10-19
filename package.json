@@ -1,0 +1,12 @@
+{
+  "name": "cc10-mini.fetch-pokemon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/forbesd7/cc10-mini.fetch-pokemon.git",
+  "author": "Derek <derek.forbes77@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}
