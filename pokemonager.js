@@ -5,35 +5,23 @@
       let pokeData = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=${n}`);
       let jsonData = await pokeData.json();
       let nameArray = jsonData.results.map(pokemon => pokemon.name);
-      console.log(nameArray);
       return nameArray;
     }
 
     // This should return an array of all the Pokemon that are under a particular weight.
 
     async findUnderWeight(weight) {
-      // Your code here.
-      // ** LIMIT TO THE FIRST 10 POKEMON
-      // We don't want to make too many unnecessary calls to the Pokemon API
-      let pokemonNameAndUrl = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?offset=0&limit=10`
-      );
-      let nameAndUrlJson = await pokemonNameAndUrl.json();
-      let finalArray = nameAndUrlJson.results.map(async (pokemon) => {
-        let pokeName = pokemon.name;
-        let pokeUrl = pokemon.url;
-        let fetchedData = await fetch(pokeUrl);
-        let fetchedDataJson = await fetchedData.json();
-        return { name: pokeName, weight: fetchedDataJson.weight };
-      });
-
-      const resolvedPromiseArray = await Promise.all(finalArray).then(
-        (result) => {
-          return result.filter((pokeArray) => pokeArray.weight < weight);
-        }
-      );
-
-      return resolvedPromiseArray;
+      let pokeData = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=10`);
+      let jsonData = await pokeData.json();
+      let pokeUnderWeight = await jsonData.results.map(async pokemon => {
+        let detailedPokeData = await fetch(pokemon.url);
+        let jsonDetailedPokeData = await detailedPokeData.json();
+        return {'name': pokemon.name, 'weight': jsonDetailedPokeData.weight};
+      })
+      let resolvedPokeWeights = await Promise.all(pokeUnderWeight);
+      return resolvedPokeWeights.filter(pokemon => {
+        return pokemon.weight < weight;
+      })
     }
   }
   window.Pokemonager = Pokemonager;
